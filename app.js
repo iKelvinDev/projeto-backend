@@ -7,7 +7,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3335;
 
 app.use(logger('dev'));
 app.use(express.json());
