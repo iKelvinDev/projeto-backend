@@ -2,7 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const MinhaSenha = 'ifrn2#23'
-var router = express.Router();
+var userEx = express.Router();
+//const userEx = express();
 
 var con = mysql.createConnection({
   host: 'localhost',
@@ -11,10 +12,29 @@ var con = mysql.createConnection({
   database: 'dblojahardware'
 });
 
-/* GET users listing. */
-
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+con.connect((erro) => {
+  if(erro) {
+    throw erro;
+  }
 });
 
-module.exports = router;
+/* GET users listing. */
+
+//userEx.post
+
+userEx.get('/lusers', verificarToken, (req, res) => {
+  con.query('SELECT * FROM tbusuarios', (erroComandoSQL, result, fields) => {
+    if(erroComandoSQL) {
+      throw erroComandoSQL;
+    }
+
+    console.log(result);
+    res.status(200).send(result);
+  })
+});
+
+
+
+
+
+module.exports = userEx;

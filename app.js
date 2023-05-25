@@ -7,7 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3333;
+const port = 3335;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,4 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+
 module.exports = app;
+
+app.listen()
