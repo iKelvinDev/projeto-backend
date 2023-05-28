@@ -96,4 +96,21 @@ products.put('/:id', verificarToken, (req, res) => {
     });
 });
 
+// Delete de produto
+products.delete('/:id', verificarToken, (req, res) => {
+    const id = req.params.id;
+    const sql = 'DELETE FROM TbProdutos WHERE id = ?';
+    con.query(sql, [id], (sqlCommandError, result) => {
+        if (sqlCommandError) {
+            throw sqlCommandError;
+        }
+
+        if (result.affectedRows > 0) {
+            res.status(200).send('Produto excluído com sucesso');
+        } else {
+            res.status(404).send('Produto não encontrado');
+        }
+    });
+});
+
 module.exports = products;
