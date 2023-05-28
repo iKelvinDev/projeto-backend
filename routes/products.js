@@ -38,4 +38,31 @@ function verificarToken(req, res, next) {
     }
 }
 
+// Select de todos os produtos
+products.get('/', verificarToken, (req, res) => {
+    con.query('SELECT * FROM TbProdutos', (erroComandoSQL, result, fields) => {
+        if (erroComandoSQL) {
+            throw erroComandoSQL;
+        }
+        res.status(200).send(result);
+    });
+});
+
+// Select de produtos por id
+products.get('/:id', verificarToken, (req, res) => {
+    const id = req.params.id;
+    const sql = 'SELECT * FROM TbProdutos WHERE id = ?';
+    con.query(sql, [id], (erroComandoSQL, result, fields) => {
+        if (erroComandoSQL) {
+            throw erroComandoSQL;
+        }
+
+        if (result.length > 0) {
+            res.status(200).send(result);
+        } else {
+            res.status(404).send('Não encontrado');
+        }
+    });
+});
+
 module.exports = products;
