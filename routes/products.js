@@ -78,4 +78,22 @@ products.post('/', verificarToken, (req, res) => {
     });
 });
 
+// Update de produto
+products.put('/:id', verificarToken, (req, res) => {
+    const id = req.params.id;
+    const { nome, preço, descrição, quantidade_estoque, fabricante } = req.body;
+    const query = 'UPDATE TbProdutos SET nome = ?, preço = ?, descrição = ?, quantidade_estoque = ?, fabricante = ? WHERE id = ?';
+    con.query(query, [nome, preço, descrição, quantidade_estoque, fabricante, id], (updateError, result) => {
+        if (updateError) {
+            throw updateError;
+        }
+
+        if (result.affectedRows > 0) {
+            res.status(200).send('Produto alterado com sucesso');
+        } else {
+            res.status(404).send('Produto não encontrado');
+        }
+    });
+});
+
 module.exports = products;
