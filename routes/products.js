@@ -65,4 +65,17 @@ products.get('/:id', verificarToken, (req, res) => {
     });
 });
 
+// Insert de produto
+products.post('/', verificarToken, (req, res) => {
+    const { id, nome, preço, descrição, quantidade_estoque, fabricante } = req.body;
+    const query = 'INSERT INTO TbProdutos (id, nome, preço, descrição, quantidade_estoque, fabricante) VALUES (?, ?, ?, ?, ?, ?)';
+    con.query(query, [id, nome, preço, descrição, quantidade_estoque, fabricante], (err, result) => {
+        if (err) {
+            res.status(500).json({ error: 'Erro ao cadastrar produto' });
+        } else {
+            res.status(201).json({ message: 'Produto cadastrado com sucesso' });
+        }
+    });
+});
+
 module.exports = products;
