@@ -75,7 +75,7 @@ products.post('/', verificarToken, (req, res) => {
         }
 
         if (result.affectedRows > 0) {
-            res.status(200).send('Produto cadastrado com sucessoErro ao cadastrar produto');
+            res.status(200).send('Produto cadastrado com sucesso');
         } else {
             res.status(400).send('Erro ao cadastrar produto');
         }
@@ -86,8 +86,8 @@ products.post('/', verificarToken, (req, res) => {
 products.put('/:id', verificarToken, (req, res) => {
     const id = req.params.id;
     const { nome, preço, descrição, quantidade_estoque, fabricante } = req.body;
-    const query = 'UPDATE TbProdutos SET nome = ?, preço = ?, descrição = ?, quantidade_estoque = ?, fabricante = ? WHERE id = ?';
-    con.query(query, [nome, preço, descrição, quantidade_estoque, fabricante, id], (updateError, result) => {
+    const sql = 'UPDATE TbProdutos SET nome = ?, preço = ?, descrição = ?, quantidade_estoque = ?, fabricante = ? WHERE id = ?';
+    con.query(sql, [nome, preço, descrição, quantidade_estoque, fabricante, id], (updateError, result) => {
         if (updateError) {
             throw updateError;
         }
