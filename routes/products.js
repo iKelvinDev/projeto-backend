@@ -40,9 +40,9 @@ function verificarToken(req, res, next) {
 
 // Select de todos os produtos
 products.get('/', verificarToken, (req, res) => {
-    con.query('SELECT * FROM TbProdutos', (erroComandoSQL, result, fields) => {
-        if (erroComandoSQL) {
-            throw erroComandoSQL;
+    con.query('SELECT * FROM TbProdutos', (sqlCommandError, result, fields) => {
+        if (sqlCommandError) {
+            throw sqlCommandError;
         }
         res.status(200).send(result);
     });
@@ -52,15 +52,15 @@ products.get('/', verificarToken, (req, res) => {
 products.get('/:id', verificarToken, (req, res) => {
     const id = req.params.id;
     const sql = 'SELECT * FROM TbProdutos WHERE id = ?';
-    con.query(sql, [id], (erroComandoSQL, result, fields) => {
-        if (erroComandoSQL) {
-            throw erroComandoSQL;
+    con.query(sql, [id], (sqlCommandError, result, fields) => {
+        if (sqlCommandError) {
+            throw sqlCommandError;
         }
 
         if (result.length > 0) {
             res.status(200).send(result);
         } else {
-            res.status(404).send('Não encontrado');
+            res.status(404).send('Produto não encontrado');
         }
     });
 });
