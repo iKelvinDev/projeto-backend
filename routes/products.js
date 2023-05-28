@@ -72,11 +72,15 @@ router.put('/:id', verificarToken, (req, res) => {
       const id = req.params.id;
       const { nome, preço, descrição, quantidade_estoque, fabricante } = req.body;
       const query = 'UPDATE tbprodutos SET nome = ?, preço = ?, descrição = ?, quantidade_estoque = ?, fabricante = ? WHERE id = ?';
-      con.query(query, [id, nome, preço, descrição, quantidade_estoque, fabricante], (err, result) => {
+      con.query(query, [nome, preço, descrição, quantidade_estoque, fabricante, id], (err, result) => {
         if (err) {
           res.status(500).json({ error: 'Erro ao atualizar produto' });
+        } 
+        
+        if (result.affectedRows > 0) {
+            res.status(200).send('Registro alterado com sucesso');
         } else {
-          res.json({ message: 'Produto atualizado com sucesso' });
+            res.status(404).send('Registro não encontrado');
         }
       });
     });
