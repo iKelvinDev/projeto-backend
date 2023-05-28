@@ -68,12 +68,16 @@ products.get('/:id', verificarToken, (req, res) => {
 // Insert de produto
 products.post('/', verificarToken, (req, res) => {
     const { id, nome, preço, descrição, quantidade_estoque, fabricante } = req.body;
-    const query = 'INSERT INTO TbProdutos (id, nome, preço, descrição, quantidade_estoque, fabricante) VALUES (?, ?, ?, ?, ?, ?)';
-    con.query(query, [id, nome, preço, descrição, quantidade_estoque, fabricante], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: 'Erro ao cadastrar produto' });
+    const sql = 'INSERT INTO TbProdutos (id, nome, preço, descrição, quantidade_estoque, fabricante) VALUES (?, ?, ?, ?, ?, ?)';
+    con.query(sql, [id, nome, preço, descrição, quantidade_estoque, fabricante], (sqlCommandError, result, fields) => {
+        if (sqlCommandError) {
+            throw sqlCommandError;
+        }
+
+        if (result.affectedRows > 0) {
+            res.status(200).json('Produto cadastrado com sucessoErro ao cadastrar produto');
         } else {
-            res.status(201).json({ message: 'Produto cadastrado com sucesso' });
+            res.status(400).json('Erro ao cadastrar produto');
         }
     });
 });
