@@ -2,7 +2,10 @@ const express = require('express');
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const MinhaSenha = 'ifrn2#23'
-const products = express.Router();
+//const products = express.Router();
+//const app = express();
+//app.use(express.json());
+const router = express.Router();
 
 // db connection
 var con = mysql.createConnection({
@@ -38,4 +41,58 @@ function verificarToken(req, res, next) {
     }
 }
 
-module.exports = products;
+// Rota para cadastrar um novo produto
+router.post('/', verificarToken, (req, res) => {
+    const { id, nome, preço, descrição, quantidade_estoque, fabricante } = req.body;
+    const query =
+      'INSERT INTO tbprodutos (id, nome, preço, descrição, quantidade_estoque, fabricante) VALUES (?, ?, ?, ?, ?, ?)';
+    con.query(query, [id, nome, preço, descrição, quantidade_estoque, fabricante], (err, result) => {
+      if (err) {
+        res.status(500).json({ error: 'Erro ao cadastrar produto' });
+      } else {
+        res.status(201).json({ message: 'Produto cadastrado com sucesso' });
+      }
+    });
+  });
+  
+  // Rota para obter todos os produtos
+router.get('/', verificarToken, (req, res) => {
+    const query = 'SELECT * FROM tbprodutos';
+    con.query(query, (err, result) => {
+      if (err) {
+        res.status(500).json({ error: 'Erro ao obter produtos' });
+      } else {
+        res.json(result);
+      }
+    });
+  });
+  
+  // Rota para atualizar um produto (requer autenticação)
+router.put('/:id', verificarToken, (req, res) => {
+      const id = req.params.id;
+      const { nome, preço, descrição, quantidade_estoque, fabricante } = req.body;
+      const query = 'UPDATE tbprodutos SET nome = ?, preço = ?, descrição = ?, quantidade_estoque = ?, fabricante = ? WHERE id = ?';
+      con.query(query, [id, nome, preço, descrição, quantidade_estoque, fabricante], (err, result) => {
+        if (err) {
+          res.status(500).json({ error: 'Erro ao atualizar produto' });
+        } else {
+          res.json({ message: 'Produto atualizado com sucesso' });
+        }
+      });
+    });
+  
+    // Rota para excluir um produto (requer autenticação)
+router.delete('/:id', verificarToken, (req, res) => {
+      const id = req.params.id;
+      const query = 'DELETE FROM tbprodutos WHERE id = ?';
+      con.query(query, [id], (err, result) => {
+        if (err) {
+          res.status(500).json({ error: 'Erro ao excluir produto' });
+        } else {
+          res.json({ message: 'Produto excluído com sucesso' });
+        }
+      });
+    });
+
+module.exports = router;
+//module.exports = products;
