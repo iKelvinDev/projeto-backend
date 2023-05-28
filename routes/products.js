@@ -75,9 +75,9 @@ products.post('/', verificarToken, (req, res) => {
         }
 
         if (result.affectedRows > 0) {
-            res.status(200).json('Produto cadastrado com sucessoErro ao cadastrar produto');
+            res.status(200).send('Produto cadastrado com sucessoErro ao cadastrar produto');
         } else {
-            res.status(400).json('Erro ao cadastrar produto');
+            res.status(400).send('Erro ao cadastrar produto');
         }
     });
 });
@@ -104,7 +104,7 @@ products.put('/:id', verificarToken, (req, res) => {
 products.delete('/:id', verificarToken, (req, res) => {
     const id = req.params.id;
     const sql = 'DELETE FROM TbProdutos WHERE id = ?';
-    con.query(sql, [id], (sqlCommandError, result) => {
+    con.query(sql, [id], (sqlCommandError, result, fields) => {
         if (sqlCommandError) {
             throw sqlCommandError;
         }
