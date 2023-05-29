@@ -65,4 +65,16 @@ users.get('/:codigo', verificarToken, (req, res) => {
   });
 });
 
+// Insert de usuário
+users.post('/', (req, res) => {
+  const { nome, email, senha } = req.body;
+  const sql = 'INSERT INTO TbUsuarios (nome, email, senha) VALUES (?, ?, ?)';
+  con.query(sql, [nome, email, senha], (sqlCommandError, result) => {
+      if (sqlCommandError) {
+          throw sqlCommandError;
+      }
+      res.status(200).send('Usuário criado com sucesso');
+  });
+});
+
 module.exports = users;
