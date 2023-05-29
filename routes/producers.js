@@ -92,4 +92,21 @@ producers.put('/:id', verificarToken, (req, res) => {
     });
 });
 
+// Delete para fabricante
+producers.delete('/:id', verificarToken, (req, res) => {
+    const id = req.params.id;
+    const sql = 'DELETE FROM TbFabricantes WHERE id = ?';
+    con.query(sql, [id], (sqlCommandError, result, fields) => {
+        if (sqlCommandError) {
+            throw sqlCommandError;
+        }
+
+        if (result.affectedRows > 0) {
+            res.status(200).send('Fabricante excluído com sucesso');
+        } else {
+            res.status(404).send('Fabricante não encontrado');
+        }
+    });
+});
+
 module.exports = producers;
