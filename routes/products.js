@@ -6,20 +6,8 @@ const MinhaSenha = 'ifrn2#23'
 //const app = express();
 //app.use(express.json());
 const router = express.Router();
+const con = require('./db');
 
-// db connection
-var con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'dblojahardware'
-});
-
-con.connect((connectionError) => {
-    if (connectionError) {
-        throw connectionError;
-    }
-});
 
 // função de autenticação usando jwt
 function verificarToken(req, res, next) {

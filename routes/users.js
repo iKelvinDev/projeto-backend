@@ -7,21 +7,8 @@ const MinhaSenha = 'ifrn2#23'
 //const app = express();
 //app.use(express.json());
 const router = express.Router();
+const con = require('./db');
 
-var con = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'dblojahardware'
-});
-
-con.connect((erro) => {
-  if(erro) {
-    throw erro;
-  }
-});
-
-/* GET users listing. */
 
 
 function verificarToken(req, res, next) {
