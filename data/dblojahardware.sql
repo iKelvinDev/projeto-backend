@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/05/2023 às 00:09
+-- Tempo de geração: 29/05/2023 às 19:50
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tbfabricantes` (
+  `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `endereco` varchar(200) DEFAULT NULL,
   `telefone` varchar(20) DEFAULT NULL
@@ -37,15 +38,15 @@ CREATE TABLE `tbfabricantes` (
 -- Despejando dados para a tabela `tbfabricantes`
 --
 
-INSERT INTO `tbfabricantes` (`nome`, `endereco`, `telefone`) VALUES
-('AMD', 'Endereco2', '22-2222-2222'),
-('ASUS', 'Endereco1', '11-1111-1111'),
-('DEEPCOOL', 'Endereco8', '88-8888-8888'),
-('INTEL', 'Endereco3', '33-3333-3333'),
-('LOGITECH', 'Endereco6', '66-6666-6666'),
-('NVIDIA', 'Endereco4', '44-4444-4444'),
-('NZXT', 'Endereco7', '77-7777-7777'),
-('RAZER', 'Endereco5', '55-5555-5555');
+INSERT INTO `tbfabricantes` (`id`, `nome`, `endereco`, `telefone`) VALUES
+(1, 'AMD', 'Endereco2', '22-2222-2222'),
+(2, 'ASUS', 'Endereco1', '11-1111-1111'),
+(3, 'DEEPCOOL', 'Endereco8', '88-8888-8888'),
+(4, 'INTEL', 'Endereco3', '33-3333-3333'),
+(5, 'LOGITECH', 'Endereco6', '66-6666-6666'),
+(6, 'NVIDIA', 'Endereco4', '44-4444-4444'),
+(7, 'NZXT', 'Endereco7', '77-7777-7777'),
+(8, 'RAZER', 'Endereco5', '55-5555-5555');
 
 -- --------------------------------------------------------
 
@@ -59,7 +60,7 @@ CREATE TABLE `tbprodutos` (
   `preço` decimal(10,2) NOT NULL,
   `descrição` text DEFAULT NULL,
   `quantidade_estoque` int(11) NOT NULL,
-  `fabricante` varchar(100) DEFAULT NULL
+  `fabricante` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -67,13 +68,13 @@ CREATE TABLE `tbprodutos` (
 --
 
 INSERT INTO `tbprodutos` (`id`, `nome`, `preço`, `descrição`, `quantidade_estoque`, `fabricante`) VALUES
-(1, 'AMD Ryzen 5 5600X', 719.99, 'RYZEN 5 5600X, 6-CORE, 12-THREADS, 3.7GHZ (4.6GHZ TURBO), CACHE 35MB, AM4', 57, 'AMD'),
-(2, 'AMD Ryzen 5 5600G', 669.99, 'RYZEN 5 5600G, 6-CORE, 12-THREADS, 3.9GHZ (4.4GHZ TURBO), CACHE 19MB, AM4', 35, 'AMD'),
-(3, 'INTEL CORE I5-11400F', 799.99, 'INTEL CORE I5-11400F, 6-CORE, 12-THREADS, 2.6GHZ (4.4GHZ TURBO), CACHE 12MB, LGA1200', 78, 'INTEL'),
-(4, 'ASUS TUF GAMING B550M-PLUS', 620.00, 'SOCKET AM4 CHIPSET AMD B550, Micro ATX, PCIe 4.0 M.2', 43, 'ASUS'),
-(5, 'Fonte NZXT C550', 344.99, 'C550 Bronze, 550W, 80 Plus Bronze, PFC Ativo, Semi Modular', 38, 'NZXT'),
-(6, 'DeepCool High Performance AK400', 149.99, 'Cooler para processador 120mm', 59, 'DEEPCOOL'),
-(7, 'MOUSE RAZER DEATHADDER', 269.99, 'DEATHADDER V2 CHROMA 20000 DPI', 140, 'RAZER');
+(1, 'AMD Ryzen 5 5600X', 719.99, 'RYZEN 5 5600X, 6-CORE, 12-THREADS, 3.7GHZ (4.6GHZ TURBO), CACHE 35MB, AM4', 57, 1),
+(2, 'AMD Ryzen 5 5600G', 669.99, 'RYZEN 5 5600G, 6-CORE, 12-THREADS, 3.9GHZ (4.4GHZ TURBO), CACHE 19MB, AM4', 35, 1),
+(3, 'INTEL CORE I5-11400F', 799.99, 'INTEL CORE I5-11400F, 6-CORE, 12-THREADS, 2.6GHZ (4.4GHZ TURBO), CACHE 12MB, LGA1200', 78, 4),
+(4, 'ASUS TUF GAMING B550M-PLUS', 620.00, 'SOCKET AM4 CHIPSET AMD B550, Micro ATX, PCIe 4.0 M.2', 43, 2),
+(5, 'Fonte NZXT C550', 344.99, 'C550 Bronze, 550W, 80 Plus Bronze, PFC Ativo, Semi Modular', 38, 7),
+(6, 'DeepCool High Performance AK400', 149.99, 'Cooler para processador 120mm', 59, 3),
+(7, 'MOUSE RAZER DEATHADDER', 269.99, 'DEATHADDER V2 CHROMA 20000 DPI', 140, 8);
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,7 @@ INSERT INTO `tbusuarios` (`codigo`, `nome`, `email`, `senha`) VALUES
 -- Índices de tabela `tbfabricantes`
 --
 ALTER TABLE `tbfabricantes`
-  ADD PRIMARY KEY (`nome`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `tbprodutos`
@@ -124,6 +125,12 @@ ALTER TABLE `tbusuarios`
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `tbfabricantes`
+--
+ALTER TABLE `tbfabricantes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tbprodutos`
@@ -145,7 +152,7 @@ ALTER TABLE `tbusuarios`
 -- Restrições para tabelas `tbprodutos`
 --
 ALTER TABLE `tbprodutos`
-  ADD CONSTRAINT `tbprodutos_ibfk_1` FOREIGN KEY (`fabricante`) REFERENCES `tbfabricantes` (`nome`);
+  ADD CONSTRAINT `tbprodutos_ibfk_1` FOREIGN KEY (`fabricante`) REFERENCES `tbfabricantes` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
