@@ -2,9 +2,9 @@ const express = require('express');
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const MinhaSenha = 'ifrn2#23'
-var userEx = express.Router();
-//const userEx = express();
+const users = express.Router();
 
+// db connection
 var con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -40,8 +40,8 @@ function verificarToken(req, res, next) {
 
 //userEx.post
 
-userEx.get('/list', verificarToken, (req, res) => {
-  con.query('SELECT * FROM tbusuarios', (erroComandoSQL, result, fields) => {
+users.get('/', verificarToken, (req, res) => {
+  con.query('SELECT * FROM TbUsuarios', (erroComandoSQL, result, fields) => {
     if(erroComandoSQL) {
       throw erroComandoSQL;
     }
@@ -52,4 +52,4 @@ userEx.get('/list', verificarToken, (req, res) => {
 });
 
 
-module.exports = userEx;
+module.exports = users;
