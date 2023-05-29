@@ -54,6 +54,23 @@ router.get('/', verificarToken, (req, res) => {
       }
     });
   });
+
+  // Select de produtos por id
+router.get('/:id', verificarToken, (req, res) => {
+  const id = req.params.id;
+  const sql = 'SELECT * FROM TbProdutos WHERE id = ?';
+  con.query(sql, [id], (sqlCommandError, result, fields) => {
+      if (sqlCommandError) {
+          throw sqlCommandError;
+      }
+
+      if (result.length > 0) {
+          res.status(200).send(result);
+      } else {
+          res.status(404).send('Produto não encontrado');
+      }
+  });
+});
   
   // Rota para atualizar um produto (requer autenticação)
 router.put('/:id', verificarToken, (req, res) => {

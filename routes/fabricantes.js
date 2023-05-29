@@ -34,8 +34,8 @@ router.get('/', verificarToken, (req, res) => {
   });
   
   // Select de fabricantes por id
-router.get('/fabricantes/:id', verificarToken, (req, res) => {
-    const id = req.params.idf;
+router.get('/:id', verificarToken, (req, res) => {
+    const id = req.params.id;
     const sql = 'SELECT * FROM tbfabricantes WHERE id = ?';
     con.query(sql, [id], (sqlCommandError, result, fields) => {
         if (sqlCommandError) {

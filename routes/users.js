@@ -28,26 +28,6 @@ function verificarToken(req, res, next) {
   }
 }
 
-router.post('/', (req, res) => {
-  const { email, senha } = req.body;
-  const sql = 'SELECT * FROM tbusuarios WHERE email = ? AND senha = ?';
-  con.query(sql, [email, senha], (erroComandoSQL, result, fields) => {
-    if (erroComandoSQL) {
-      throw erroComandoSQL;
-    } else {
-      if (result.length > 0) {
-        //const nome = result[0].NoOperador;
-        const token = jwt.sign({ email }, MinhaSenha, {
-          expiresIn: 60 * 10, // expires in 5min (300 segundos ==> 5 x 60)
-        });
-        res.json({ auth: true, token: token });
-      } else {
-        res.status(403).json({ message: 'Login inválido!' });
-      }
-    }
-  });
-});
-
 // Rota para cadastrar um novo usuário
 router.post('/', (req, res) => {
   const { codigo, nome, email, senha } = req.body;
@@ -70,6 +50,22 @@ router.get('/', verificarToken, (req, res) => {
     } else {
       res.json(result);
     }
+  });
+});
+
+router.get('/:codigo', verificarToken, (req, res) => {
+  const codigo = req.params.codigo;
+  const sql = 'SELECT * FROM TbUsuarios WHERE codigo = ?';
+  con.query(sql, [codigo], (sqlCommandError, result, fields) => {
+      if (sqlCommandError) {
+          throw sqlCommandError;
+      }
+
+      if (result.length > 0) {
+          res.status(200).send(result);
+      } else {
+          res.status(404).send('Usuário não encontrado');
+      }
   });
 });
 

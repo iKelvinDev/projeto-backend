@@ -7,7 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 var fabricantesRouter = require('./routes/fabricantes');
-
+var loginRouter = require('./routes/login');
 const app = express();
 
 app.use(logger('dev'));
@@ -20,7 +20,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/fabricantes', fabricantesRouter);
-app.use('/login', usersRouter);
+app.use('/login', loginRouter);
 
 
 module.exports = app;
