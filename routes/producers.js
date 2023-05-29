@@ -62,5 +62,15 @@ producers.get('/:id', verificarToken, (req, res) => {
     });
 });
 
+producers.post('/', verificarToken, (req, res) => {
+    const { nome, endereco, telefone } = req.body;
+    const sql = 'INSERT INTO TbFabricantes (nome, endereco, telefone) VALUES (?, ?, ?)';
+    con.query(sql, [nome, endereco, telefone], (sqlCommandError, result) => {
+        if (sqlCommandError) {
+            throw sqlCommandError;
+        }
+        res.status(200).send('Fabricante adicionado com sucesso');
+    });
+});
 
 module.exports = producers;
