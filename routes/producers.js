@@ -1,22 +1,10 @@
 const express = require('express');
-const mysql = require('mysql');
+const producers = express.Router();
+const con = require('./dbconnection');
+
 const jwt = require('jsonwebtoken');
 const MinhaSenha = 'ifrn2#23'
-const producers = express.Router();
 
-// db connection
-var con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'dblojahardware'
-});
-
-con.connect((connectionError) => {
-    if (connectionError) {
-        throw connectionError;
-    }
-});
 
 function verificarToken(req, res, next) {
     const token = req.headers['x-access-token'];
