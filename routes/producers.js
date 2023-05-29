@@ -35,4 +35,32 @@ function verificarToken(req, res, next) {
     }
 }
 
+// Select de todos os fabricantes
+producers.get('/', verificarToken, (req, res) => {
+    con.query('SELECT * FROM TbFabricantes', (sqlCommandError, result, fields) => {
+        if (sqlCommandError) {
+            throw sqlCommandError;
+        }
+        res.status(200).send(result);
+    });
+});
+
+// Select de fabricante por id
+producers.get('/:id', verificarToken, (req, res) => {
+    const id = req.params.id;
+    const sql = 'SELECT * FROM TbFabricantes WHERE id = ?';
+    con.query(sql, [id], (sqlCommandError, result, fields) => {
+        if (sqlCommandError) {
+            throw sqlCommandError;
+        }
+
+        if (result.length > 0) {
+            res.status(200).send(result);
+        } else {
+            res.status(404).send('Fabricante não encontrado');
+        }
+    });
+});
+
+
 module.exports = producers;
