@@ -21,7 +21,7 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
-app.use('./producers', producersRouter);
+app.use('/producers', producersRouter);
 
 
 module.exports = app;
