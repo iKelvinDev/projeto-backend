@@ -65,7 +65,7 @@ users.get('/:codigo', verificarToken, (req, res) => {
   });
 });
 
-// Insert de usuário
+// Insert de usuário (acesso público)
 users.post('/', (req, res) => {
   const { nome, email, senha } = req.body;
   const sql = 'INSERT INTO TbUsuarios (nome, email, senha) VALUES (?, ?, ?)';
@@ -74,6 +74,41 @@ users.post('/', (req, res) => {
           throw sqlCommandError;
       }
       res.status(200).send('Usuário criado com sucesso');
+  });
+});
+
+// Update de usuário
+users.put('/:codigo', verificarToken, (req, res) => {
+  const codigo = req.params.codigo;
+  const { nome, email, senha } = req.body;
+  const sql = 'UPDATE TbUsuarios SET nome = ?, email = ?, senha = ? WHERE codigo = ?';
+  con.query(sql, [nome, email, senha, codigo], (updateError, result) => {
+      if (updateError) {
+          throw updateError;
+      }
+
+      if (result.affectedRows > 0) {
+          res.status(200).send('Usuário alterado com sucesso');
+      } else {
+          res.status(404).send('Usuário não encontrado');
+      }
+  });
+});
+
+// Delete de usuário
+users.delete('/:codigo', verificarToken, (req, res) => {
+  const codigo = req.params.codigo;
+  const sql = 'DELETE FROM TbUsuarios WHERE codigo = ?';
+  con.query(sql, [codigo], (sqlCommandError, result, fields) => {
+      if (sqlCommandError) {
+          throw sqlCommandError;
+      }
+
+      if (result.affectedRows > 0) {
+          res.status(200).send('Usuário excluído com sucesso');
+      } else {
+          res.status(404).send('Usuário não encontrado');
+      }
   });
 });
 
