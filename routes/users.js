@@ -28,7 +28,7 @@ function verificarToken(req, res, next) {
   }
 }
 
-router.post('/login', (req, res) => {
+router.post('/', (req, res) => {
   const { email, senha } = req.body;
   const sql = 'SELECT * FROM tbusuarios WHERE email = ? AND senha = ?';
   con.query(sql, [email, senha], (erroComandoSQL, result, fields) => {

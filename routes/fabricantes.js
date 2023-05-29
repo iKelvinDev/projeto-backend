@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const con = require('./db');
+const jwt = require('jsonwebtoken');
+const MinhaSenha = 'ifrn2#23'
 
 function verificarToken(req, res, next) {
     const token = req.headers['x-access-token'];
