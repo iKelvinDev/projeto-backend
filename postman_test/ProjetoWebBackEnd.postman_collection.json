@@ -459,14 +459,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/products",
+							"raw": "http://localhost:3000/producers",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"products"
+								"producers"
 							]
 						}
 					},
@@ -498,14 +498,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/products/",
+							"raw": "http://localhost:3000/producers/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"products",
+								"producers",
 								""
 							]
 						}
@@ -518,14 +518,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/products/",
+							"raw": "http://localhost:3000/producers/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"products",
+								"producers",
 								""
 							]
 						}
