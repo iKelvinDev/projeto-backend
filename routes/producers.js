@@ -62,6 +62,7 @@ producers.get('/:id', verificarToken, (req, res) => {
     });
 });
 
+// Insert para fabricante
 producers.post('/', verificarToken, (req, res) => {
     const { nome, endereco, telefone } = req.body;
     const sql = 'INSERT INTO TbFabricantes (nome, endereco, telefone) VALUES (?, ?, ?)';
@@ -70,6 +71,24 @@ producers.post('/', verificarToken, (req, res) => {
             throw sqlCommandError;
         }
         res.status(200).send('Fabricante adicionado com sucesso');
+    });
+});
+
+// Update para fabricante
+producers.put('/:id', verificarToken, (req, res) => {
+    const id = req.params.id;
+    const { nome, endereco, telefone } = req.body;
+    const sql = 'UPDATE TbFabricantes SET nome = ?, endereco = ?, telefone = ? WHERE id = ?';
+    con.query(sql, [nome, endereco, telefone, id], (updateError, result) => {
+        if (updateError) {
+            throw updateError;
+        }
+
+        if (result.affectedRows > 0) {
+            res.status(200).send('Fabricante alterado com sucesso');
+        } else {
+            res.status(404).send('Fabricante não encontrado');
+        }
     });
 });
 
