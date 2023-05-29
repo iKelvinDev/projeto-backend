@@ -38,18 +38,31 @@ function verificarToken(req, res, next) {
   }
 }
 
-//userEx.post
-
+// Select de todos os usuários
 users.get('/', verificarToken, (req, res) => {
-  con.query('SELECT * FROM TbUsuarios', (erroComandoSQL, result, fields) => {
-    if(erroComandoSQL) {
-      throw erroComandoSQL;
-    }
-
-    console.log(result);
-    res.status(200).send(result);
-  })
+  con.query('SELECT * FROM TbUsuarios', (sqlCommandError, result, fields) => {
+      if (sqlCommandError) {
+          throw sqlCommandError;
+      }
+      res.status(200).send(result);
+  });
 });
 
+// Select de usuário por código
+users.get('/:codigo', verificarToken, (req, res) => {
+  const codigo = req.params.codigo;
+  const sql = 'SELECT * FROM TbUsuarios WHERE codigo = ?';
+  con.query(sql, [codigo], (sqlCommandError, result, fields) => {
+      if (sqlCommandError) {
+          throw sqlCommandError;
+      }
+
+      if (result.length > 0) {
+          res.status(200).send(result);
+      } else {
+          res.status(404).send('Usuário não encontrado');
+      }
+  });
+});
 
 module.exports = users;
