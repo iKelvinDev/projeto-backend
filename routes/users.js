@@ -10,14 +10,14 @@ function verificarToken(req, res, next) {
   const token = req.headers['x-access-token'];
   if (!token) {
     res.status(401).json({ auth: false, message: 'Nenhum token de autenticação informado' });
-
   } else {
     jwt.verify(token, MinhaSenha, function (err, decoded) {
       if (err) {
         return res.status(500).json({ auth: false, message: 'Token Inválido' });
       } else {
-        console.log('Método acessado por ' + decoded.nome);
-        next()
+        console.log('Método acessado por ' + decoded.email);
+        req.usuario = decoded.email; // Armazena o nome do usuário no objeto de solicitação (request)
+        next();
       }
     });
   }
@@ -58,7 +58,7 @@ users.post('/', (req, res) => {
     if (sqlCommandError) {
       throw sqlCommandError;
     }
-    res.status(200).send('Usuário criado com sucesso');
+    res.status(200).json({ message: 'Usuário criado com sucesso' });
   });
 });
 
@@ -73,9 +73,9 @@ users.put('/:codigo', verificarToken, (req, res) => {
     }
 
     if (result.affectedRows > 0) {
-      res.status(200).send('Usuário alterado com sucesso');
+      res.status(200).json({ message: 'Usuário alterado com sucesso' });
     } else {
-      res.status(404).send('Usuário não encontrado');
+      res.status(404).json({ message: 'Usuário não encontrado' });
     }
   });
 });
@@ -90,9 +90,9 @@ users.delete('/:codigo', verificarToken, (req, res) => {
     }
 
     if (result.affectedRows > 0) {
-      res.status(200).send('Usuário excluído com sucesso');
+      res.status(200).json({ message: 'Usuário excluído com sucesso' });
     } else {
-      res.status(404).send('Usuário não encontrado');
+      res.status(404).json({ message: 'Usuário não encontrado' });
     }
   });
 });
