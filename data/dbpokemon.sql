@@ -1,5 +1,5 @@
-CREATE DATABASE `dbpokemon1`;
-USE dbpokemon1;
+CREATE DATABASE `dbpokemon`;
+USE dbpokemon;
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `dbpokemon1`
+-- Banco de dados: `dbpokemon`
 --
 
 -- --------------------------------------------------------
